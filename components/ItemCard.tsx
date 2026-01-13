@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { WishlistItem } from '../types';
 import { ExternalLink, Gift, Trash2, CheckCircle } from 'lucide-react';
@@ -17,6 +19,18 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, isParentView, onReserv
     ? 'bg-green-50 border-green-200' 
     : 'bg-white border-gray-100';
 
+  const formatPrice = (price: number, currency?: string) => {
+    if (!currency) return `$${price.toFixed(2)}`;
+    if (currency.length === 3) {
+      try {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+      } catch {
+        return `${currency} ${price.toFixed(2)}`;
+      }
+    }
+    return `${currency}${price.toFixed(2)}`;
+  };
+
   return (
     <div className={`relative rounded-2xl border shadow-sm transition-all duration-300 overflow-hidden group ${statusColor}`}>
       {/* Image Section */}
@@ -35,16 +49,11 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, isParentView, onReserv
         )}
         
         {/* Price Tag */}
-        {item.price && (
+        {typeof item.price === 'number' && (
           <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-sm font-semibold text-gray-700 shadow-sm">
-            ${item.price.toFixed(2)}
+            {formatPrice(item.price, item.currency)}
           </div>
         )}
-
-        {/* Category Tag */}
-        <div className="absolute top-2 left-2 bg-baby-500/90 backdrop-blur px-2 py-1 rounded-lg text-xs font-medium text-white shadow-sm uppercase tracking-wide">
-          {item.category}
-        </div>
       </div>
 
       {/* Content Section */}
