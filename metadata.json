@@ -1,0 +1,5 @@
+{
+  "name": "StorkDrop",
+  "description": "A mobile-first, aesthetic baby registry app. Parents can manage wishes, and guests can reserve items anonymously or by name. Features AI-powered image generation for items.",
+  "requestFramePermissions": []
+}
